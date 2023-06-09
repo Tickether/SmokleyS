@@ -7,15 +7,15 @@ import Navbar from '@/components/navbar'
 const Transactions : NextPage = () => {
 
 
-  return (
-    <>
-      <Navbar/>
-        <div>
-          <div></div>
-        </div>
-      <Footer/>
-    </>
-  )
+    return (
+        <>
+            <Navbar/>
+                <div>
+                    <div></div>
+                </div>
+            <Footer/>
+        </>
+    )
 }
 
 export default Transactions
