@@ -1,0 +1,30 @@
+.container{
+  display: flex;
+  height: 100px;
+  width: 100vw;
+  position: fixed;
+  justify-content: center;
+  position: fixed;
+}
+
+.wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #2D2E2E;
+  width: 100vw;
+}
+
+.logo{
+  display: flex;
+}
+
+.menu{
+  display: flex;
+  gap: 10px;
+  text-align: center;
+}
+
+.connect{
+  display: flex;
+}
