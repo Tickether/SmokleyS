@@ -3,6 +3,7 @@ import { useAccount, useContractRead } from 'wagmi';
 import { useEffect, useRef, useState } from 'react'
 import { isEqual } from 'lodash'
 import { Product } from '@/models/models'
+import ShipOutOne from '../shipOut/shipOutOne';
 
 interface ProductProps {
   product: Product
@@ -150,9 +151,9 @@ console.log(claimed)
                     Ship
                 </button>
             </div>
-            {/**
+            
             {openModal && <ShipOutOne setOpen ={setOpenModal} order ={order} />}
-            */}
+            
             </div>
         </div>
     </>
