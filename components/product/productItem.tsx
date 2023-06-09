@@ -12,7 +12,7 @@ interface ProductProps {
 }
 
 
-export const ProductItem = ({product}: ProductProps) => {
+export default function ProductItem ({product}: ProductProps) {
 
     const [cartItem, setCartItem] = useRecoilState(cartState)
 

@@ -4,7 +4,7 @@ import styles from '@/styles/Home.module.css'
 import type { GetServerSideProps, NextPage } from 'next'
 import { Network, Alchemy } from 'alchemy-sdk';
 import { Product } from '../models/models'
-import { ProductItem } from '@/components/product/productItem';
+import ProductItem from '@/components/product/productItem';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   
