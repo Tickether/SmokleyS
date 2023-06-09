@@ -7,6 +7,7 @@ import { Product } from '@/models/models'
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
 import OrderItem from '@/components/order/orderItem';
+import ShipOutBulk from '@/components/shipOut/shipOutBulk';
 
 
 interface ordersInfoProps { 
@@ -139,9 +140,9 @@ const Orders : NextPage = () => {
                             </div>
                         </div>
                     </div>
-                    {/**
+                    
                     {openModal && <ShipOutBulk setOpen ={setOpenModal} finalOrders ={finalOrders} />}
-                     */}
+                    
                 </div>
       <Footer/>
     </>
