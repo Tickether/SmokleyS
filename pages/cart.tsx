@@ -7,6 +7,7 @@ import { formatEther } from 'viem'
 import { useEffect, useState } from 'react'
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
+import CartItem from '@/components/cart/cartItem'
 
 
 const Cart : NextPage = () => {
@@ -21,6 +22,13 @@ const Cart : NextPage = () => {
     const [quantities, setQuantities] = useState<bigint[]>([])
     const [cartPrice, setCartPrice] = useState<bigint>(BigInt(0))
     const [totalCartPrice, setTotalCartPrice] = useState<String>()
+    const [connected, setConnected] = useState<boolean>(false)
+
+    useEffect(() => {
+        if (isConnected && typeof isConnected === 'boolean') {
+            setConnected((true))
+        }
+    },[isConnected])
 
     useEffect(() => {
         const _tokenIDs = []
@@ -93,36 +101,36 @@ const Cart : NextPage = () => {
     }
     
     return (
-    <>
-        <Navbar/>
-            <div className={styles.container}>
-                <div className={styles.wrapper}>
-                    <div className={styles.cart}>
-                        <div className={styles.cartItems}>
-                            {
-                                cartItem.length <= 0 
-                                ? <h1>your cart is empty</h1>
-                                : <h1>your cart is empty</h1> //cartItem.map(item => <CartItem key={item.product.tokenId} product={item.product} quantity={item.quantity} price={item.price}/> )
-                            }
-                        </div>
-                        <div>
+        <>
+            <Navbar/>
+                <div className={styles.container}>
+                    <div className={styles.wrapper}>
+                        <div className={styles.cart}>
+                            <div className={styles.cartItems}>
                                 {
                                     cartItem.length <= 0 
-                                    ? <></>
-                                    : <p className={styles.cartTotal}>TOTAL: {totalCartPrice}</p>
+                                    ? <h1>your cart is empty</h1>
+                                    : cartItem.map(item => <CartItem key={item.product.tokenId} product={item.product} quantity={item.quantity} price={item.price}/> )
                                 }
-                        </div>
-                        <div className={styles.buy}>
-                            <button className={styles.buyBtn} onClick={handleBuy} disabled={!isConnected}>
-                                Buy
-                            </button>
+                            </div>
+                            <div>
+                                    {
+                                        cartItem.length <= 0 
+                                        ? <></>
+                                        : <p className={styles.cartTotal}>TOTAL: {totalCartPrice}</p>
+                                    }
+                            </div>
+                            <div className={styles.buy}>
+                                <button className={styles.buyBtn} onClick={handleBuy} disabled={!connected || cartItem.length <= 0}>
+                                    Buy
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        <Footer/>
-    </>
-  )
+            <Footer/>
+        </>
+    )
 }
 
 export default Cart
