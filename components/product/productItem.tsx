@@ -20,7 +20,15 @@ export const ProductItem = ({product}: ProductProps) => {
 
     const [etherPrice, setEtherPrice] = useState<string>('')
 
+    const [connected, setConnected] = useState<boolean>(false)
+
     const [latestPrice, setLatestPrice] = useState<bigint>(BigInt(0))
+
+    useEffect(() => {
+        if (isConnected && typeof isConnected === 'boolean') {
+            setConnected((true))
+        }
+    },[isConnected])
 
     const contractReadFee = useContractRead({
         address: "0x23477F5DbeBFeec97eEC4C39c408FA0e6868b239",
@@ -43,6 +51,7 @@ export const ProductItem = ({product}: ProductProps) => {
             setLatestPrice(contractReadFee?.data!)
         }
     },[contractReadFee?.data!])
+    
     console.log(etherPrice)
     console.log(latestPrice)
 
@@ -133,7 +142,7 @@ export const ProductItem = ({product}: ProductProps) => {
                             <p>eth:{etherPrice}</p>
                         </div>
                         <div className={styles.productButtons}>
-                            <button className={styles.productBuy} disabled={!isConnected} onClick={handleBuy}> Buy </button>
+                            <button className={styles.productBuy} disabled={!connected} onClick={handleBuy}> Buy </button>
                             <button className={styles.productCart} onClick={handleCartAdd}> Add to Cart </button> 
                         </div>
                     </div>
