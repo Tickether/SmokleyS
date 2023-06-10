@@ -28,6 +28,8 @@ export default function OrderItem ({ product, Order} : ProductProps) {
     useEffect(() => {
         if (isConnected && typeof isConnected === 'boolean') {
             setConnected((true))
+        } if (!isConnected && typeof isConnected === 'boolean') {
+            setConnected((false))
         }
     },[isConnected])
 

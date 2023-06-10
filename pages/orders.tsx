@@ -32,6 +32,8 @@ const Orders : NextPage = () => {
     useEffect(() => {
         if (isConnected && typeof isConnected === 'boolean') {
             setConnected((true))
+        } if (!isConnected && typeof isConnected === 'boolean') {
+            setConnected((false))
         }
     },[isConnected])
 
