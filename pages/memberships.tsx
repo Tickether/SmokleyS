@@ -69,7 +69,7 @@ const Memberships : NextPage = () => {
         };
 
         fetchData();
-    }, []);
+    }, [address, membership]);
 
     const contractReadMembership = useContractRead({
         address: "0x7C2A9525818B0c1589885de370323B1B385224D1",
