@@ -5,14 +5,16 @@
   max-width: 100vw;
   height: 100%;
   background: #212427;
-  justify-content: center;   
+  justify-content: center; 
+  font-family: 'Righteous';
 }
 
 .wrapper{
   display: flex;
-  width: 40%;
-  margin-top: 100px;
+  width: 60%;
+  margin-top: 150px;
 }
+
 .products{
   display: flex;
   flex-direction: column;
@@ -26,16 +28,21 @@
 
 
 
+
 .productDetails{
-    
   display: flex;
   flex-direction: column;
   padding: 10px;
   border-radius: 5px;
   color: aliceblue;
-  font-family: 'Space Grotesk', sans-serif;
-  
+}
 
+.productTitle{
+  height: 60px;
+}
+
+.productPrice{
+  height: 30px;
 }
 
 .productItemWrapper{
@@ -74,12 +81,80 @@
   display: flex;
   justify-content: center;
   gap: 20px;
+  
 }
 
 .productBuy{
   border-radius: 5px;
+  display: inline-block;
+  padding: 10px 20px;
+  font-family: 'Bungee', sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  background-color: #333;
+  color: #fff;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
 .productCart{
   border-radius: 5px;
+  display: inline-block;
+  padding: 10px 20px;
+  font-family: 'Bungee', sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  background-color: #333;
+  color: #fff;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.productBuy:hover {
+  background-color: #555;
+}
+
+.productBuy:active {
+  background-color: #222;
+}
+
+.productCart:hover {
+  background-color: #555;
+}
+
+.productCart:active {
+  background-color: #222;
+}
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    width: 90%;
+    margin-top: 50px;
+  }
+
+  .productDetails {
+    padding: 5px;
+  }
+
+  .productTitle {
+    height: auto;
+  }
+
+  .productPrice {
+    height: auto;
+  }
+
+  .productButtons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .productBuy,
+  .productCart {
+    width: 100%;
+  }
 }

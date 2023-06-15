@@ -13,18 +13,14 @@ export default function Footer() {
         <div className={styles.wrapper}>
           <div className={styles.logo}>
             <Image
+              width={80}
               src={logo} 
               alt="" 
             />
           </div>
           <div className={styles.socials}>
-            <Image src={twitter} alt="" />
-            <Image src={discord} alt="" />
-          </div>
-          <div className={styles.company}>
-            <span>Privacy Policy</span>
-            <span>Terms of Use</span>
-            <span>Legal</span>
+            <Image width={25} src={twitter} alt="" />
+            <Image width={25} src={discord} alt="" />
           </div>
         </div>
       </div>

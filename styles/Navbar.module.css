@@ -5,6 +5,7 @@
   position: fixed;
   justify-content: center;
   position: fixed;
+  font-family:'Bungee';
 }
 
 .wrapper{
@@ -19,12 +20,67 @@
   display: flex;
 }
 
-.menu{
+.menuItems{
   display: flex;
   gap: 10px;
   text-align: center;
 }
 
+.menuToggle{
+  display: none;
+}
+
+.menuClose{
+  display: none;
+}
+
 .connect{
   display: flex;
+}
+
+
+@media screen and (max-width: 768px) {
+  
+  
+  .menuToggle{
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .menuToggle.expanded{
+    display: none;
+  }
+
+  .menuItems{
+    display: none;
+  }
+
+  .menuClose{
+    display: flex;
+    align-items: center; /* Add this line to center the text vertically */
+    cursor: pointer;
+  }
+
+  .menuItems.expanded {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: absolute;
+    width: 100%;
+    align-items: center;
+    background-color: #2D2E2E;
+    padding: 10px;
+  }
+
+  .menuItems.expanded span {
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  .menu {
+    flex-direction: column;
+    gap: 5px;
+    position: relative;
+  }
 }

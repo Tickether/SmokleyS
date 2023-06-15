@@ -137,10 +137,10 @@ export default function ProductItem ({product}: ProductProps) {
                         />
                     </div>
                     <div className={styles.productDetails}>
-                        <div className="productTitle">
-                            <h2>{product.title}</h2>
+                        <div className={styles.productTitle}>
+                            <span>{product.title}</span>
                         </div>
-                        <div>
+                        <div className={styles.productPrice}>
                             <p>eth:{etherPrice}</p>
                         </div>
                         <div className={styles.productButtons}>
