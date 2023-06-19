@@ -40,7 +40,7 @@ export default function ShipOutBulk ({setOpen, finalOrders} : any) {
 
     
     const prepareContractWriteClaimShippingBulk = usePrepareContractWrite({
-        address: '0x23477F5DbeBFeec97eEC4C39c408FA0e6868b239',
+        address: '0xD0de778DecBd16b9036A4d3F98535B183313Da05',
         abi: [
             {
             name: 'claimShippingBulk',

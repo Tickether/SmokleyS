@@ -33,7 +33,7 @@ export default function ProductItem ({product}: ProductProps) {
     },[isConnected])
 
     const contractReadFee = useContractRead({
-        address: "0x23477F5DbeBFeec97eEC4C39c408FA0e6868b239",
+        address: "0xD0de778DecBd16b9036A4d3F98535B183313Da05",
         abi: [
             {
               name: 'getLatestPrice',
@@ -59,7 +59,7 @@ export default function ProductItem ({product}: ProductProps) {
 
     
     const  { config } = usePrepareContractWrite({
-        address: "0x23477F5DbeBFeec97eEC4C39c408FA0e6868b239",
+        address: "0xD0de778DecBd16b9036A4d3F98535B183313Da05",
         abi: [
             {
               name: 'buy',

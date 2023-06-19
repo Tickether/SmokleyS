@@ -60,7 +60,7 @@ const Memberships : NextPage = () => {
         const alchemy = new Alchemy(settings);
 
         try {
-            const nfts = await alchemy.nft.getNftsForOwner(address!, { contractAddresses: ['0x7C2A9525818B0c1589885de370323B1B385224D1'] });
+            const nfts = await alchemy.nft.getNftsForOwner(address!, { contractAddresses: ['0xe0EA5e8Bf175E517A6079716864524BE4a11CaBF'] });
             console.log(nfts.ownedNfts[0])
             setOwnedMembership(nfts.ownedNfts);
         } catch (error) {
@@ -72,7 +72,7 @@ const Memberships : NextPage = () => {
     }, [address, membership]);
 
     const contractReadMembership = useContractRead({
-        address: "0x7C2A9525818B0c1589885de370323B1B385224D1",
+        address: "0xe0EA5e8Bf175E517A6079716864524BE4a11CaBF",
         abi: [
             {
                 name: 'membership',
@@ -95,7 +95,7 @@ const Memberships : NextPage = () => {
     },[contractReadMembership?.data!])
 
     const contractReadFee = useContractRead({
-        address: "0x7C2A9525818B0c1589885de370323B1B385224D1",
+        address: "0xe0EA5e8Bf175E517A6079716864524BE4a11CaBF",
         abi: [
             {
               name: 'getLatestPrice',
@@ -120,7 +120,7 @@ const Memberships : NextPage = () => {
     console.log(latestPrice)
 
     const contractReadMaxSubs = useContractRead({
-        address: "0x7C2A9525818B0c1589885de370323B1B385224D1",
+        address: "0xe0EA5e8Bf175E517A6079716864524BE4a11CaBF",
         abi: [
             {
                 name: 'maxMonthlySubs',
@@ -141,7 +141,7 @@ const Memberships : NextPage = () => {
     },[contractReadMaxSubs?.data!])
 
     const contractReadUser = useContractRead({
-        address: "0x7C2A9525818B0c1589885de370323B1B385224D1",
+        address: "0xe0EA5e8Bf175E517A6079716864524BE4a11CaBF",
         abi: [
             {
                 name: 'userOf',
@@ -164,7 +164,7 @@ const Memberships : NextPage = () => {
     },[contractReadUser?.data!])
 
     const contractReadExpires = useContractRead({
-        address: "0x7C2A9525818B0c1589885de370323B1B385224D1",
+        address: "0xe0EA5e8Bf175E517A6079716864524BE4a11CaBF",
         abi: [
             {
                 name: 'userExpires',
@@ -194,7 +194,7 @@ const Memberships : NextPage = () => {
     },[userExpires])
 
     const prepareContractWriteMembership = usePrepareContractWrite({
-        address: '0x7C2A9525818B0c1589885de370323B1B385224D1',
+        address: '0xe0EA5e8Bf175E517A6079716864524BE4a11CaBF',
         abi: [
             {
               name: 'getMembersToken',
@@ -235,7 +235,7 @@ const Memberships : NextPage = () => {
     })
 
     const prepareContractWriteSubscription = usePrepareContractWrite({
-        address: '0x7C2A9525818B0c1589885de370323B1B385224D1',
+        address: '0xe0EA5e8Bf175E517A6079716864524BE4a11CaBF',
         abi: [
             {
               name: 'setUser',
