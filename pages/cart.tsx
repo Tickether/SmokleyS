@@ -133,7 +133,7 @@ const Cart : NextPage = () => {
             setDiscounted(discountOut)   
             setDiscountedEther(formatEther(discountOut))
         }
-    },[contractReadDiscount?.data!])
+    },[contractReadDiscount?.data!, cartPrice])
 
     const  prepareContractWriteMemberBuy = usePrepareContractWrite({
         address: "0x10fCd5E8F6370D6C17539bf6110f3ce12F70710f",
