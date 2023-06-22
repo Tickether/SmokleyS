@@ -47,7 +47,7 @@ const Orders : NextPage = () => {
         const alchemy = new Alchemy(settings);
 
         try {
-            const nfts = await alchemy.nft.getNftsForOwner(address!, { contractAddresses: ['0xD0de778DecBd16b9036A4d3F98535B183313Da05'] });
+            const nfts = await alchemy.nft.getNftsForOwner(address!, { contractAddresses: ['0x10fCd5E8F6370D6C17539bf6110f3ce12F70710f'] });
             console.log(nfts.ownedNfts)
             setOwnedProducts(nfts.ownedNfts);
         } catch (error) {

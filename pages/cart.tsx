@@ -1,7 +1,7 @@
 import styles from '@/styles/Cart.module.css'
 import { NextPage } from 'next'
 import { useRecoilState } from 'recoil'
-import { useAccount, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
+import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
 import { cartState } from '@/atom/cartState'
 import { formatEther } from 'viem'
 import { useEffect, useState } from 'react'
@@ -23,6 +23,11 @@ const Cart : NextPage = () => {
     const [cartPrice, setCartPrice] = useState<bigint>(BigInt(0))
     const [totalCartPrice, setTotalCartPrice] = useState<String>()
     const [connected, setConnected] = useState<boolean>(false)
+    const [discounted, setDiscounted] = useState<bigint>(BigInt(0))
+    const [discountedEther, setDiscountedEther] = useState<string>('')
+
+    console.log(discounted)
+    console.log(discountedEther)
 
     useEffect(() => {
         if (isConnected && typeof isConnected === 'boolean') {
@@ -61,7 +66,7 @@ const Cart : NextPage = () => {
      }, [cartItem]);
     
      const { config } = usePrepareContractWrite({
-        address: '0xD0de778DecBd16b9036A4d3F98535B183313Da05',
+        address: '0x10fCd5E8F6370D6C17539bf6110f3ce12F70710f',
         abi: [
             {
               name: 'buyBulk',
@@ -97,6 +102,60 @@ const Cart : NextPage = () => {
     const handleBuy = async () => {
         try {
           await contractWrite.writeAsync?.()
+        } catch (err) {
+          console.log(err)
+        }
+    }
+
+
+    const contractReadDiscount = useContractRead({
+        address: "0x10fCd5E8F6370D6C17539bf6110f3ce12F70710f",
+        abi: [
+            {
+                name: 'discount',
+                inputs: [],
+                outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+                stateMutability: 'view',
+                type: 'function',
+            },
+        ],
+        functionName: 'discount',
+        watch: true,
+        chainId: 11155111,
+    })  
+    console.log(contractReadDiscount.data)
+      
+    useEffect(() => {
+        if (contractReadDiscount?.data! === BigInt(0)) {
+            setDiscounted((cartPrice!))
+        }else if (contractReadDiscount?.data! && typeof contractReadDiscount.data === 'bigint') {
+            const discountOut = BigInt((1000 - Number(contractReadDiscount?.data!)) * (Number(cartPrice!)) / 1000)
+            setDiscounted(discountOut)   
+            setDiscountedEther(formatEther(discountOut))
+        }
+    },[contractReadDiscount?.data!])
+
+    const  prepareContractWriteMemberBuy = usePrepareContractWrite({
+        address: "0x10fCd5E8F6370D6C17539bf6110f3ce12F70710f",
+        abi: [
+            {
+              name: 'memberBuyBulk',
+              inputs: [ {internalType: "address", name: "to", type: "address"}, {internalType: "uint256[]", name: "ids", type: "uint256[]"}, {internalType: "uint256[]", name: "amounts", type: "uint256[]" }, {internalType: "uint256", name: "memberid", type: "uint256"} ],
+              outputs: [],
+              stateMutability: 'payable',
+              type: 'function',
+            },
+        ],
+        functionName: "memberBuyBulk",
+        args: [ (address!), (tokenIDs), (quantities), (BigInt(0)) ],
+        value: discounted,
+        chainId: 11155111,
+    })
+    const  contractWriteMemberBuy = useContractWrite(prepareContractWriteMemberBuy.config)
+
+    const handleMemberBuy = async () => {
+        try {
+          await contractWriteMemberBuy.writeAsync?.()
         } catch (err) {
           console.log(err)
         }

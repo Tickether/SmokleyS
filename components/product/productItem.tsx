@@ -24,6 +24,13 @@ export default function ProductItem ({product}: ProductProps) {
 
     const [latestPrice, setLatestPrice] = useState<bigint>(BigInt(0))
 
+    const [discounted, setDiscounted] = useState<bigint>(BigInt(0))
+
+    const [discountedEther, setDiscountedEther] = useState<string>('')
+
+    console.log(discounted)
+    console.log(discountedEther)
+
     useEffect(() => {
         if (isConnected && typeof isConnected === 'boolean') {
             setConnected((true))
@@ -33,7 +40,7 @@ export default function ProductItem ({product}: ProductProps) {
     },[isConnected])
 
     const contractReadFee = useContractRead({
-        address: "0xD0de778DecBd16b9036A4d3F98535B183313Da05",
+        address: "0x10fCd5E8F6370D6C17539bf6110f3ce12F70710f",
         abi: [
             {
               name: 'getLatestPrice',
@@ -58,8 +65,8 @@ export default function ProductItem ({product}: ProductProps) {
     console.log(latestPrice)
 
     
-    const  { config } = usePrepareContractWrite({
-        address: "0xD0de778DecBd16b9036A4d3F98535B183313Da05",
+    const  prepareContractWriteBuy = usePrepareContractWrite({
+        address: "0x10fCd5E8F6370D6C17539bf6110f3ce12F70710f",
         abi: [
             {
               name: 'buy',
@@ -74,11 +81,64 @@ export default function ProductItem ({product}: ProductProps) {
         value: latestPrice,
         chainId: 11155111,
     })
-    const  contractWrite = useContractWrite(config)
+    const  contractWriteBuy = useContractWrite(prepareContractWriteBuy.config)
 
     const handleBuy = async () => {
         try {
-          await contractWrite.writeAsync?.()
+          await contractWriteBuy.writeAsync?.()
+        } catch (err) {
+          console.log(err)
+        }
+    }
+
+    const contractReadDiscount = useContractRead({
+        address: "0x10fCd5E8F6370D6C17539bf6110f3ce12F70710f",
+        abi: [
+            {
+                name: 'discount',
+                inputs: [],
+                outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+                stateMutability: 'view',
+                type: 'function',
+            },
+        ],
+        functionName: 'discount',
+        watch: true,
+        chainId: 11155111,
+    })  
+    console.log(contractReadDiscount.data)
+      
+    useEffect(() => {
+        if (contractReadDiscount?.data! === BigInt(0)) {
+            setDiscounted((latestPrice!))
+        }else if (contractReadDiscount?.data! && typeof contractReadDiscount.data === 'bigint') {
+            const discountOut = BigInt((1000 - Number(contractReadDiscount?.data!)) * (Number(latestPrice!)) / 1000)
+            setDiscounted(discountOut)   
+            setDiscountedEther(formatEther(discountOut))
+        }
+    },[contractReadDiscount?.data!])
+
+    const  prepareContractWriteMemberBuy = usePrepareContractWrite({
+        address: "0x10fCd5E8F6370D6C17539bf6110f3ce12F70710f",
+        abi: [
+            {
+              name: 'memberBuy',
+              inputs: [ {internalType: "address", name: "to", type: "address"}, {internalType: "uint256", name: "id", type: "uint256"}, {internalType: "uint256", name: "amount", type: "uint256" }, {internalType: "uint256", name: "memberid", type: "uint256"} ],
+              outputs: [],
+              stateMutability: 'payable',
+              type: 'function',
+            },
+        ],
+        functionName: "memberBuy",
+        args: [ (address!), (BigInt(product.tokenId)), (BigInt(1)), (BigInt(0)) ],
+        value: discounted,
+        chainId: 11155111,
+    })
+    const  contractWriteMemberBuy = useContractWrite(prepareContractWriteMemberBuy.config)
+
+    const handleMemberBuy = async () => {
+        try {
+          await contractWriteMemberBuy.writeAsync?.()
         } catch (err) {
           console.log(err)
         }

@@ -36,7 +36,7 @@ export default function OrderItem ({ product, Order} : ProductProps) {
   console.log(order)
 
   const contractReadBalance = useContractRead({
-    address: "0xD0de778DecBd16b9036A4d3F98535B183313Da05",
+    address: "0x10fCd5E8F6370D6C17539bf6110f3ce12F70710f",
     abi: [
         {
           name: 'balanceOf',
@@ -62,7 +62,7 @@ useEffect(() => {
 
 
 const contractReadClaimed = useContractRead({
-    address: "0xD0de778DecBd16b9036A4d3F98535B183313Da05",
+    address: "0x10fCd5E8F6370D6C17539bf6110f3ce12F70710f",
     abi: [
         {
           name: 'claimed',

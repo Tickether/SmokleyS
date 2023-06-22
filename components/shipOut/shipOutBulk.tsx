@@ -1,6 +1,6 @@
-import { useAccount, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi';
+import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi';
 import styles from '@/styles/ShipOut.module.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 //import { useToasts } from 'react-toast-notifications';
 
 
@@ -30,6 +30,9 @@ export default function ShipOutBulk ({setOpen, finalOrders} : any) {
     console.log(shippingInfo)
 
     const [loading, setLoading] = useState(false)
+    const [shippingFee, setShippingFee] = useState(BigInt(0))
+
+    console.log(shippingFee)
          
 
 
@@ -37,10 +40,35 @@ export default function ShipOutBulk ({setOpen, finalOrders} : any) {
         setShippingInfo((prev)=>({...prev, [e.target.id]:e.target.value}))
     };
 
+    const contractReadShippingFee = useContractRead({
+        address: "0x10fCd5E8F6370D6C17539bf6110f3ce12F70710f",
+        abi: [
+            {
+                name: 'shippingFee',
+                inputs: [],
+                outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+                stateMutability: 'view',
+                type: 'function',
+            },
+        ],
+        functionName: 'shippingFee',
+        watch: true,
+        chainId: 11155111,
+    })  
+    console.log(contractReadShippingFee.data)
+      
+    useEffect(() => {
+        if (contractReadShippingFee?.data! === BigInt(0)) {
+            setShippingFee((contractReadShippingFee?.data!))
+        }else if (contractReadShippingFee?.data! && typeof contractReadShippingFee.data === 'bigint') {
+            setShippingFee((contractReadShippingFee?.data!))
+        }
+    },[contractReadShippingFee?.data!])
+
 
     
     const prepareContractWriteClaimShippingBulk = usePrepareContractWrite({
-        address: '0xD0de778DecBd16b9036A4d3F98535B183313Da05',
+        address: '0x10fCd5E8F6370D6C17539bf6110f3ce12F70710f',
         abi: [
             {
             name: 'claimShippingBulk',
@@ -53,7 +81,7 @@ export default function ShipOutBulk ({setOpen, finalOrders} : any) {
         functionName: 'claimShippingBulk',
         args: [ (address!), finalOrders.tokens, (finalOrders.claims) ],
         chainId: 11155111,
-        value: BigInt(0),
+        value: shippingFee,
     })
 
     const  contractWriteClaimShippingBulk = useContractWrite(prepareContractWriteClaimShippingBulk.config)

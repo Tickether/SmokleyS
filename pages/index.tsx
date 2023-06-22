@@ -16,7 +16,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   // init with key and chain info 
   const alchemy = new Alchemy(settings);
   // Print total NFT collection returned in the response:
-  const { nfts } = await alchemy.nft.getNftsForContract("0xD0de778DecBd16b9036A4d3F98535B183313Da05")
+  const { nfts } = await alchemy.nft.getNftsForContract("0x10fCd5E8F6370D6C17539bf6110f3ce12F70710f")
   const loadedProducts = JSON.stringify(nfts)
   // console.log(nfts) 
   // Pass data to the page via props
