@@ -30,7 +30,6 @@ const Products : NextPage <{ loadedProducts: string }> = ({ loadedProducts })=> 
 
   return (
     <>
-      <Navbar/>
         <div className={styles.container}>
             <div className={styles.wrapper}>
               
@@ -42,7 +41,6 @@ const Products : NextPage <{ loadedProducts: string }> = ({ loadedProducts })=> 
          
             </div>
           </div>
-      <Footer/>
     </>
   )
 }

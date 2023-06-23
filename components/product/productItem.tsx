@@ -24,9 +24,14 @@ export default function ProductItem ({product}: ProductProps) {
 
     const [latestPrice, setLatestPrice] = useState<bigint>(BigInt(0))
 
-    const [discounted, setDiscounted] = useState<bigint>(BigInt(0))
+    const [discounted, setDiscounted] = useState<bigint>((BigInt(0)))
 
     const [discountedEther, setDiscountedEther] = useState<string>('')
+
+    const [activeMember, setMemberActivity] = useState<boolean>(false)
+
+    console.log(activeMember)
+
 
     console.log(discounted)
     console.log(discountedEther)
@@ -38,6 +43,15 @@ export default function ProductItem ({product}: ProductProps) {
             setConnected((false))
         }
     },[isConnected])
+
+    useEffect(()=>{
+        const getMemberActive = () => {
+            const memberAvtive = localStorage.getItem('MemberActive');
+            return memberAvtive ? JSON.parse(memberAvtive) : null;
+        };
+        getMemberActive()
+        setMemberActivity(getMemberActive)
+    },[connected])
 
     const contractReadFee = useContractRead({
         address: "0x10fCd5E8F6370D6C17539bf6110f3ce12F70710f",
@@ -110,9 +124,9 @@ export default function ProductItem ({product}: ProductProps) {
       
     useEffect(() => {
         if (contractReadDiscount?.data! === BigInt(0)) {
-            setDiscounted((latestPrice!))
+            setDiscounted(latestPrice!)
         }else if (contractReadDiscount?.data! && typeof contractReadDiscount.data === 'bigint') {
-            const discountOut = BigInt((1000 - Number(contractReadDiscount?.data!)) * (Number(latestPrice!)) / 1000)
+            const discountOut = ((BigInt(1000) - (contractReadDiscount?.data!)) * ((latestPrice!)) / BigInt(1000))
             setDiscounted(discountOut)   
             setDiscountedEther(formatEther(discountOut))
         }
@@ -204,7 +218,16 @@ export default function ProductItem ({product}: ProductProps) {
                             <p>eth:{etherPrice}</p>
                         </div>
                         <div className={styles.productButtons}>
-                            <button className={styles.productBuy} disabled={!connected} onClick={handleBuy}> Buy </button>
+                            {
+                                !activeMember
+                                ?   (
+                                    <><button className={styles.productBuy} disabled={!connected} onClick={handleBuy}> Buy </button></>
+                                )
+                                :   (
+                                    <><button className={styles.productBuy} disabled={!connected} onClick={handleMemberBuy}> Members Only </button></>
+                                )
+                            }
+                            
                             <button className={styles.productCart} onClick={handleCartAdd}> Add to Cart </button> 
                         </div>
                     </div>

@@ -290,7 +290,6 @@ const Memberships : NextPage = () => {
     
     return (
         <>
-            <Navbar/>
                 <div className={styles.container}>
                     <div className={styles.wrapper}>
                         <div className={styles.members}>
@@ -354,7 +353,6 @@ const Memberships : NextPage = () => {
                         </div>
                     </div>
                 </div>
-            <Footer/>
         </>
     )
 }

@@ -114,7 +114,6 @@ const Orders : NextPage = () => {
 
   return (
     <>
-      <Navbar/>
       <div className={styles.container}>
                     <div className={styles.wrapper}>
                         <div className={styles.claim}>
@@ -146,7 +145,6 @@ const Orders : NextPage = () => {
                     {openModal && <ShipOutBulk setOpen ={setOpenModal} finalOrders ={finalOrders} />}
                     
                 </div>
-      <Footer/>
     </>
   )
 }

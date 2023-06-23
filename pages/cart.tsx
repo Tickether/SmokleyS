@@ -25,6 +25,9 @@ const Cart : NextPage = () => {
     const [connected, setConnected] = useState<boolean>(false)
     const [discounted, setDiscounted] = useState<bigint>(BigInt(0))
     const [discountedEther, setDiscountedEther] = useState<string>('')
+    const [activeMember, setMemberActivity] = useState<boolean>(false)
+
+    console.log(activeMember)
 
     console.log(discounted)
     console.log(discountedEther)
@@ -36,6 +39,15 @@ const Cart : NextPage = () => {
             setConnected((false))
         }
     },[isConnected])
+
+    useEffect(()=>{
+        const getMemberActive = () => {
+            const memberAvtive = localStorage.getItem('MemberActive');
+            return memberAvtive ? JSON.parse(memberAvtive) : null;
+        };
+        getMemberActive()
+        setMemberActivity(getMemberActive)
+    },[connected])
 
     useEffect(() => {
         const _tokenIDs = []
@@ -129,7 +141,7 @@ const Cart : NextPage = () => {
         if (contractReadDiscount?.data! === BigInt(0)) {
             setDiscounted((cartPrice!))
         }else if (contractReadDiscount?.data! && typeof contractReadDiscount.data === 'bigint') {
-            const discountOut = BigInt((1000 - Number(contractReadDiscount?.data!)) * (Number(cartPrice!)) / 1000)
+            const discountOut = ((BigInt(1000) - (contractReadDiscount?.data!)) * ((cartPrice!)) / BigInt(1000))
             setDiscounted(discountOut)   
             setDiscountedEther(formatEther(discountOut))
         }
@@ -163,7 +175,6 @@ const Cart : NextPage = () => {
     
     return (
         <>
-            <Navbar/>
                 <div className={styles.container}>
                     <div className={styles.wrapper}>
                         <div className={styles.cart}>
@@ -182,14 +193,24 @@ const Cart : NextPage = () => {
                                     }
                             </div>
                             <div className={styles.buy}>
-                                <button className={styles.buyBtn} onClick={handleBuy} disabled={!connected || cartItem.length <= 0}>
-                                    Buy
-                                </button>
+                                {
+                                    !activeMember
+                                    ?   (   
+                                        <button className={styles.buyBtn} onClick={handleBuy} disabled={!connected || cartItem.length <= 0}>
+                                            Buy
+                                        </button>
+                                    )
+                                    :   (  
+                                        <button className={styles.buyBtn} onClick={handleMemberBuy} disabled={!connected || cartItem.length <= 0}>
+                                            MemberS Only
+                                        </button>
+                                    )
+                                }
+                                
                             </div>
                         </div>
                     </div>
                 </div>
-            <Footer/>
         </>
     )
 }

@@ -4,6 +4,8 @@ import { RecoilRoot } from 'recoil'
 import { sepolia, mainnet, configureChains, createConfig, WagmiConfig } from 'wagmi'
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { Web3Modal } from '@web3modal/react'
+import Navbar from '@/components/navbar'
+import Footer from '@/components/footer'
 
 // Wagmi Config
 const chains = [sepolia, mainnet];
@@ -30,7 +32,9 @@ export default function App({ Component, pageProps }: AppProps) {
   <>
     <WagmiConfig config={wagmiConfig} >
       <RecoilRoot>
-        <Component {...pageProps} />
+        <Navbar/>
+          <Component {...pageProps} />
+        <Footer/>
       </RecoilRoot>
     </WagmiConfig>
     <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
