@@ -215,7 +215,19 @@ export default function ProductItem ({product}: ProductProps) {
                             <span>{product.title}</span>
                         </div>
                         <div className={styles.productPrice}>
-                            <p>eth:{etherPrice}</p>
+                            {
+                                !activeMember
+                                ?   (
+                                    <><p className={styles.productTotal}>eth:{etherPrice}</p></>
+                                )
+                                :   (
+                                    <>
+                                        <p className={styles.productTotalDiscount}>eth:{etherPrice}</p>
+                                        <p className={styles.productDiscount}>eth:{discountedEther}</p>
+                                    </>
+                                )
+                            }
+                            
                         </div>
                         <div className={styles.productButtons}>
                             {

@@ -1,14 +1,19 @@
 import styles from '@/styles/Cart.module.css'
-import { CartProps } from '@/atom/cartState';
+import { CartProps, cartState } from '@/atom/cartState';
 import { useContractRead } from 'wagmi';
 import { useEffect, useState } from 'react';
 import { formatEther } from 'viem';
+import { useRecoilState } from 'recoil';
 
 
 export default function CartItem ({ product, quantity, price } : CartProps) {
     console.log(product, quantity, price)
 
     const [etherPrice, setEtherPrice] = useState<string>('')
+
+    const [buyAmount, setBuyAmount] = useState<number>(quantity)
+
+    const [cartItem, setCartItem] = useRecoilState(cartState)
 
 
     const contractReadFee = useContractRead({
@@ -34,6 +39,42 @@ export default function CartItem ({ product, quantity, price } : CartProps) {
         }
     },[contractReadFee?.data!])
 
+    const handleDecrement = () => {
+        if (buyAmount <= 0 ) return;
+        setBuyAmount(buyAmount - 1);
+        //handleQuantityChange(product.tokenId, buyAmount - 1);
+    };
+    
+      const handleIncrement = () => {
+        if (buyAmount >= 10 ) return;
+        setBuyAmount(buyAmount + 1);
+        //handleQuantityChange(product.tokenId, buyAmount - 1);
+    };
+
+    
+
+    useEffect(()=>{
+        const handleQuantityChange = () => {
+            try {
+                setCartItem(prevState => {
+                    const updatedCart = prevState.map(item => {
+                        if (item.product.tokenId === product.tokenId) {
+                            return {
+                                ...item,
+                                quantity: buyAmount
+                            };
+                        }
+                        return item;
+                    });
+                    return updatedCart as CartProps[];
+                });
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        handleQuantityChange()
+    },[buyAmount])
+
     return (
         <>
             <div className={styles.cartItem}>
@@ -45,16 +86,16 @@ export default function CartItem ({ product, quantity, price } : CartProps) {
                                     <img src={product.media[0].gateway} className={styles.cartItemImg} alt="" />
                                 </span>
                                 <span className={styles.cartItemTitle}>{product.title}</span>
-                                <span className={styles.cartItemTotal}>{quantity * Number(etherPrice)}</span>
+                                <span className={styles.cartItemTotal}>{buyAmount * Number(etherPrice)}</span>
                             </div>
                             <div className={styles.carItemButtons}>
-                                <button /*onClick={handleDecrement}*/>-</button>
+                                <button onClick={handleDecrement}>-</button>
                                 <input 
                                     readOnly
                                     type='number' 
-                                    value={quantity}
+                                    value={buyAmount}
                                 />
-                                <button /*onClick={handleIncrement}*/>+</button>
+                                <button onClick={handleIncrement}>+</button>
                             </div>
                         </div>  
                     </div>

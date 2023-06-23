@@ -84,6 +84,13 @@
   
 }
 
+.productTotalDiscount{
+  text-decoration: line-through;
+}
+.productDiscount{
+  display: flex;
+}
+
 .productBuy{
   border-radius: 5px;
   display: inline-block;

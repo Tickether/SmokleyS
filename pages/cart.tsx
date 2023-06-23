@@ -5,8 +5,6 @@ import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite,
 import { cartState } from '@/atom/cartState'
 import { formatEther } from 'viem'
 import { useEffect, useState } from 'react'
-import Navbar from '@/components/navbar'
-import Footer from '@/components/footer'
 import CartItem from '@/components/cart/cartItem'
 
 
@@ -48,6 +46,7 @@ const Cart : NextPage = () => {
         getMemberActive()
         setMemberActivity(getMemberActive)
     },[connected])
+
 
     useEffect(() => {
         const _tokenIDs = []
@@ -182,14 +181,25 @@ const Cart : NextPage = () => {
                                 {
                                     cartItem.length <= 0 
                                     ? <h1>your cart is empty</h1>
-                                    : cartItem.map(item => <CartItem key={item.product.tokenId} product={item.product} quantity={item.quantity} price={item.price}/> )
+                                    : cartItem.map(item => <CartItem key={item.product.tokenId} product={item.product} quantity={item.quantity} price={item.price} /> )
                                 }
                             </div>
                             <div>
                                     {
                                         cartItem.length <= 0 
                                         ? <></>
-                                        : <p className={styles.cartTotal}>TOTAL: {totalCartPrice}</p>
+                                        :   (
+                                            !activeMember
+                                            ?   (
+                                                <p className={styles.cartTotal}>TOTAL: {totalCartPrice}</p>
+                                            )
+                                            :   (
+                                                <>
+                                                    <p className={styles.cartTotalDiscount}>TOTAL: {totalCartPrice}</p>
+                                                    <p className={styles.cartDiscount}>TOTAL: {discountedEther}</p>
+                                                </>
+                                            )
+                                        )
                                     }
                             </div>
                             <div className={styles.buy}>

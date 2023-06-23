@@ -55,7 +55,21 @@ margin: 0 5px;
   font-size: x-large;
   font-weight: bold;
   text-align: right;
-  margin-top: 20px; /* Add some spacing at the top */
+  margin-top: 20px;
+}
+
+.cartTotalDiscount{
+  text-decoration: line-through;
+  font-size: x-large;
+  font-weight: bold;
+  text-align: right;
+  margin-top: 20px;
+}
+.cartDiscount{
+  font-size: x-large;
+  font-weight: bold;
+  text-align: right;
+  margin-top: 20px;
 }
 
 .buyBtn {
