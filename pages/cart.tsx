@@ -26,7 +26,7 @@ const Cart : NextPage = () => {
     const [activeMember, setMemberActivity] = useState<boolean>(false)
 
     console.log(activeMember)
-
+    console.log(cartPrice)
     console.log(discounted)
     console.log(discountedEther)
 
@@ -140,9 +140,24 @@ const Cart : NextPage = () => {
         if (contractReadDiscount?.data! === BigInt(0)) {
             setDiscounted((cartPrice!))
         }else if (contractReadDiscount?.data! && typeof contractReadDiscount.data === 'bigint') {
-            const discountOut = ((BigInt(1000) - (contractReadDiscount?.data!)) * ((cartPrice!)) / BigInt(1000))
-            setDiscounted(discountOut)   
-            setDiscountedEther(formatEther(discountOut))
+            const _values = []
+            if (cartItem.length !== 0) {
+                for (let i = 0; i < cartItem.length; i++) {
+                    const discountOut = BigInt(1000) - (contractReadDiscount?.data!)
+                    const price = (( discountOut * cartItem[i].price ) / BigInt(1000))
+                    
+                    const total = (price) * (BigInt(cartItem[i].quantity))
+                    
+                    _values.push(total)
+                    
+                
+                }
+                const sumTotal = _values.reduce((acc: bigint, curr: bigint) => acc + curr, BigInt(0));
+                console.log(sumTotal)
+                setDiscounted(sumTotal)
+                setDiscountedEther(formatEther(sumTotal))
+ 
+            }
         }
     },[contractReadDiscount?.data!, cartPrice])
 
